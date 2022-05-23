@@ -1,0 +1,18 @@
+[
+  {
+   "command" : "python3 /home/nazir_arshad7/arsenal/CheckAndUpload.py",
+   "type" : "cron",
+   "frequency" : 1,
+   "gap" : "days",
+   "at" : null 
+  }
+]
+
+
+
+
+
+
+
+
+
