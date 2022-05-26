@@ -1,3 +1,4 @@
+import time
 import init
 import support
 from scripts import gitpull
@@ -43,7 +44,7 @@ for item, value in config.items():
 
 support.startup_commands()
 githubprojects , vhosted = init.main(config, projectdestination , vhostlocation, logall)
-print("Initialisation Complete")
+print("Initialisation Complete , Reloading Apache")
 support.startup_commands()
 
 while True:

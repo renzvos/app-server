@@ -3,6 +3,10 @@ import time
 import subprocess
 
 def startup_commands():
+  print("Stopping Apache")
+  p = subprocess.Popen(['service apache2 stop'], stdout=subprocess.PIPE, shell=True)
+  time.sleep(3)
+  p_status = p.kill()
   print("Starting Apache")
   p = subprocess.Popen(['service apache2 start'], stdout=subprocess.PIPE, shell=True)
   (output, err) = p.communicate()  
@@ -52,3 +56,9 @@ def findProjectIndex(name, list):
   for id in range(len(list)):
     if list[id]["name"] == name:
       return id
+
+def Chown(user,path):
+  p = subprocess.Popen(['chown -R ' + user  + ' ' + path], stdout=subprocess.PIPE, shell=True)
+  (output, err) = p.communicate()  
+  p_status = p.wait()
+  print(output)

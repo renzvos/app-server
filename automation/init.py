@@ -27,6 +27,7 @@ def main( config,projectdestination, vhostlocation , logall):
                     print("Downloading " + branch + " branch")
                     githubcommands.clone_password(username,password,account,rep,destination,branch=branch)
                     sha = githubcommands.windows_fetchsha(account,rep,username,password,branch)
+                    support.Chown("www-data","destination")
                     githubprojects.append({"name": projectname , "username":username , "password" : password , "account" : account , "repo" : rep , "branch": branch , "destination" :destination , "final-sha" : sha})
 
                 if config[ envaddr + "_address_mode"] == "vhost":
@@ -34,9 +35,26 @@ def main( config,projectdestination, vhostlocation , logall):
                     url_alias =  config[  envaddr  +  "_address_url_alias"] 
                     destination  = projectdestination + projectname + "/"
                     data = vhostdata.vhostdata(url,url_alias,destination)
-                    with open(vhostlocation + 'rex.conf', 'w') as f:
+                    with open(vhostlocation + projectname +  '.conf', 'w') as f:
                         f.write(data)
                     vhosted.append({"name" : projectname , "url" : url , "url-alias" : url_alias})
+                
+                apachevars = open('/etc/apache2/envvars', 'a')
+                apachevars.write('\n')
+                if envaddr + "_mysql_db_database" in config:
+                    apachevars.write('export ' + envaddr + "_mysql_db_database=" + config[envaddr + "_mysql_db_database"] + "\n")
+                else:print("Database Name not found")
+                if envaddr + "_mysql_db_host" in config:
+                    apachevars.write('export ' + envaddr + "_mysql_db_host=" + config[envaddr + "_mysql_db_host"]+ "\n")
+                else:print("Database-Host Name not found")
+                if envaddr + "_mysql_db_password" in config:
+                    apachevars.write('export ' + envaddr + "_mysql_db_password=" + config[envaddr + "_mysql_db_password"]+ "\n")
+                else:print("Database Password not found")               
+                if envaddr + "_mysql_db_username" in config:
+                    apachevars.write('export ' + envaddr + "_mysql_db_username=" + config[envaddr + "_mysql_db_username"]+ "\n")
+                else:print("Database Username not found")
+                apachevars.close()
+
             else:
                 print("Cannot parse project name")    
 

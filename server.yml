@@ -1,11 +1,11 @@
 version: "3"
 services:
   dev-server:
-    image : renzvos.jfrog.io/apache-host/production
+    image : renzvos.jfrog.io/apache-host/dev-server
     ports : 
       - 80:80
     env_file:
-      - config-prod.env
+      - config.env
     environment:
      - PYTHONUNBUFFERED=1
     volumes:

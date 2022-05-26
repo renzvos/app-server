@@ -1,7 +1,7 @@
 version: "3"
 services:
   apache:
-    image : renzvos.jfrog.io/apache-host/production
+    image : renzvos.jfrog.io/apache-host/prodution
     ports : 
       - 80:80
     env_file:
@@ -9,8 +9,8 @@ services:
     environment:
      - PYTHONUNBUFFERED=1
     volumes:
-      - /data/ssl/etc:/etc/letsencrypt
-      - /data/ssl/var:/var/lib/letsencrypt
+      - /home/data/letsencrypt/etc :/etc/letsencrypt
+      - /home/data/letsencrypt/var :/var/lib/letsencrypt
     networks:
         app-serving:
             ipv4_address: 172.0.0.2
