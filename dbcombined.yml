@@ -1,7 +1,7 @@
 version: "3"
 services:
   apache:
-    image : renzvos.jfrog.io/apache-host/prodution
+    image : renzvos.jfrog.io/apache-host/production:latest
     ports : 
       - 80:80
     env_file:
@@ -15,7 +15,7 @@ services:
         app-serving:
             ipv4_address: 172.0.0.2
   mysql:
-    image : renzvos.jfrog.io/mysql-host/production
+    image : renzvos.jfrog.io/mysql-host/production:latest
     ports : 
       - 3306:3306
       - 33060:33060
