@@ -53,7 +53,7 @@ RUN apt-get install mysql-client -y
 RUN rm -rf /var/www/html
 
 
-RUN apt-get install nano -y
+#RUN apt-get install nano -y
 
 #Cache stops
 COPY automation automation

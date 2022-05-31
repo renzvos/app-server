@@ -1,0 +1,44 @@
+version: "3"
+services:
+  apache:
+    container_name: apache
+    image : local-server
+    ports : 
+      - 80:80
+    env_file:
+      - config-local.env
+    environment:
+     - PYTHONUNBUFFERED=1
+    volumes:
+      - C:\dev-server\data\letsencrypt\etc:/etc/letsencrypt
+      - C:\dev-server\data\letsencrypt\var:/var/lib/letsencrypt
+    networks:
+        app-serving:
+            ipv4_address: 172.0.0.2
+  mysql:
+    container_name: mysql
+    image : local-mysql
+    ports : 
+      - 3306:3306
+      - 33060:33060
+      - 33061:33061
+    networks:
+        app-serving:
+            ipv4_address: 172.0.0.3
+    env_file:
+      - dbconfig-local.env
+    environment:
+     - PYTHONUNBUFFERED=1
+     - config_mysql_type=default
+     - startup_restore_data=true
+    init : true
+    volumes:
+      - ./volume:/volume
+
+networks:
+  app-serving:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.0.0.0/16
+         gateway: 172.0.0.1

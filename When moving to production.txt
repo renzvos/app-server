@@ -1,0 +1,4 @@
+--- delete all on main
+--- copy all from dev
+--- delete all local files
+--- remove nano from build file

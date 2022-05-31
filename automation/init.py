@@ -27,7 +27,7 @@ def main( config,projectdestination, vhostlocation , logall):
                     print("Downloading " + branch + " branch")
                     githubcommands.clone_password(username,password,account,rep,destination,branch=branch)
                     sha = githubcommands.windows_fetchsha(account,rep,username,password,branch)
-                    support.Chown("www-data","destination")
+                    support.Chown("www-data",destination)
                     githubprojects.append({"name": projectname , "username":username , "password" : password , "account" : account , "repo" : rep , "branch": branch , "destination" :destination , "final-sha" : sha})
 
                 if config[ envaddr + "_address_mode"] == "vhost":

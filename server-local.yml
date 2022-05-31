@@ -1,0 +1,13 @@
+version: "3"
+services:
+  dev-server:
+    image : dev-server
+    ports : 
+      - 80:80
+    env_file:
+      - config-dev.env
+    environment:
+     - PYTHONUNBUFFERED=1
+    volumes:
+      - C:\dev-server\data\letsencrypt\etc:/etc/letsencrypt
+      - C:\dev-server\data\letsencrypt\var:/var/lib/letsencrypt

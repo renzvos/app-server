@@ -1,0 +1,44 @@
+version: "3"
+services:
+  apache:
+    container_name: apache
+    image : renzvos.jfrog.io/apache-host/production
+    ports : 
+      - 80:80
+    env_file:
+      - config.env
+    environment:
+     - PYTHONUNBUFFERED=1
+    volumes:
+      - /home/data/letsencrypt/etc :/etc/letsencrypt
+      - /home/data/letsencrypt/var :/var/lib/letsencrypt
+    networks:
+        app-serving:
+            ipv4_address: 172.0.0.2
+  mysql:
+    container_name: mysql
+    image : renzvos.jfrog.io/mysql-host/production
+    ports : 
+      - 3306:3306
+      - 33060:33060
+      - 33061:33061
+    networks:
+        app-serving:
+            ipv4_address: 172.0.0.3
+    env_file:
+      - dbconfig.env
+    environment:
+     - PYTHONUNBUFFERED=1
+     - config_mysql_type=default
+     - startup_restore_data=false
+    init : true
+    volumes:
+      - ./volume:/volume
+
+networks:
+  app-serving:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.0.0.0/16
+         gateway: 172.0.0.1
