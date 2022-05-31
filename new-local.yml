@@ -2,22 +2,22 @@ version: "3"
 services:
   apache:
     container_name: apache
-    image : renzvos.jfrog.io/apache-host/production
+    image : local-server
     ports : 
       - 80:80
     env_file:
-      - config.env
+      - config-local.env
     environment:
      - PYTHONUNBUFFERED=1
     volumes:
-      - /home/data/letsencrypt/etc :/etc/letsencrypt
-      - /home/data/letsencrypt/var :/var/lib/letsencrypt
+      - C:\dev-server\data\letsencrypt\etc:/etc/letsencrypt
+      - C:\dev-server\data\letsencrypt\var:/var/lib/letsencrypt
     networks:
         app-serving:
             ipv4_address: 172.0.0.2
   mysql:
     container_name: mysql
-    image : renzvos.jfrog.io/mysql-host/production
+    image : local-mysql
     ports : 
       - 3306:3306
       - 33060:33060
@@ -26,15 +26,15 @@ services:
         app-serving:
             ipv4_address: 172.0.0.3
     env_file:
-      - dbconfig.env
+      - dbconfig-local.env
     environment:
      - PYTHONUNBUFFERED=1
-     - config_mysql_type=low-ram
+     - config_mysql_type=default
      - startup_restore_data=false
     init : true
     volumes:
       - ./volume:/volume
-    mem_limit: 150mb
+    mem_limit: 200mb
 
 networks:
   app-serving:
