@@ -16,8 +16,8 @@ services:
         app-serving:
             ipv4_address: 172.0.0.2
   mysql:
-    container_name: renzvos.jfrog.io/mysql-host/production
-    image : local-mysql
+    container_name: mysql
+    image : renzvos.jfrog.io/mysql-host/production
     ports : 
       - 3306:3306
       - 33060:33060
