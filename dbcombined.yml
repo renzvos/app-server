@@ -1,8 +1,7 @@
 version: "3"
 services:
   apache:
-    container_name: apache
-    image : renzvos.jfrog.io/apache-host/production
+    image : renzvos.jfrog.io/apache-host/prodution
     ports : 
       - 80:80
     env_file:
@@ -16,7 +15,6 @@ services:
         app-serving:
             ipv4_address: 172.0.0.2
   mysql:
-    container_name: mysql
     image : renzvos.jfrog.io/mysql-host/production
     ports : 
       - 3306:3306
@@ -28,13 +26,7 @@ services:
     env_file:
       - dbconfig.env
     environment:
-     - PYTHONUNBUFFERED=1
-     - config_mysql_type=low-ram
-     - startup_restore_data=false
-    init : true
-    volumes:
-      - ./volume:/volume
-    mem_limit: 150mb
+     - PYTHONUNBUFFERED=1 
 
 networks:
   app-serving:
