@@ -29,12 +29,12 @@ services:
       - dbconfig.env
     environment:
      - PYTHONUNBUFFERED=1
-     - config_mysql_type=default
+     - config_mysql_type=low-ram
      - startup_restore_data=false
     init : true
     volumes:
       - ./volume:/volume
-    mem_limit: 400mb
+    mem_limit: 500mb
 
 networks:
   app-serving:
