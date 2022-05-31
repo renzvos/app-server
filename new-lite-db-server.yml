@@ -29,7 +29,7 @@ services:
       - dbconfig.env
     environment:
      - PYTHONUNBUFFERED=1
-     - config_mysql_type=low-ram
+     - config_mysql_type=default
      - startup_restore_data=false
     init : true
     volumes:
