@@ -32,7 +32,7 @@ services:
      - config_mysql_type=low-ram
      - startup_restore_data=true
     init : true
-    mem_limit: 100mb
+    mem_limit: 150mb
     volumes:
       - ./volume:/volume
 

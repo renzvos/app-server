@@ -34,7 +34,7 @@ services:
     init : true
     volumes:
       - ./volume:/volume
-    mem_limit: 100mb
+    mem_limit: 150mb
 
 networks:
   app-serving:
