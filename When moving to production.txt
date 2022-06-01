@@ -1,4 +1,2 @@
---- delete all on main
---- copy all from dev
---- delete all local files
---- remove nano from build file
+--  A image change will make change in certificates
+--  certbot email was not working
