@@ -10,8 +10,8 @@ services:
     environment:
      - PYTHONUNBUFFERED=1
     volumes:
-      - /home/data/letsencrypt/etc :/etc/letsencrypt
-      - /home/data/letsencrypt/var :/var/lib/letsencrypt
+      - /home/data/letsencrypt/etc:/etc/letsencrypt
+      - /home/data/letsencrypt/var:/var/lib/letsencrypt
     networks:
         app-serving:
             ipv4_address: 172.0.0.2
