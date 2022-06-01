@@ -22,14 +22,16 @@ def main( config,projectdestination, vhostlocation , logall):
                     account = config[ envaddr + "_host_credentials_account"]
                     rep = config[envaddr + "_host_credentials_repo"]
                     branch = config[envaddr + "_host_credentials_branch"]
-                    destination  = projectdestination + projectname + "/"
+                    destination  = projectdestination + projectname
                     print("Project Code Source : Github - " + account + " as user " + username)
                     print("Downloading " + branch + " branch")
                     githubcommands.clone_password(username,password,account,rep,destination,branch=branch)
                     sha = githubcommands.windows_fetchsha(account,rep,username,password,branch)
+                    print("CHOWNing")
                     support.Chown("www-data",destination)
+                    print("Global safe adding")
+                    githubcommands.GlobalAddSafe(destination)
                     githubprojects.append({"name": projectname , "username":username , "password" : password , "account" : account , "repo" : rep , "branch": branch , "destination" :destination , "final-sha" : sha})
-
                 if config[ envaddr + "_address_mode"] == "vhost":
                     url = config[ envaddr  +  "_address_url_name"] 
                     url_alias =  config[  envaddr  +  "_address_url_alias"] 

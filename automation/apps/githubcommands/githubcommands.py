@@ -224,4 +224,13 @@ def AddAll_Commit(message,username):
       print(e)
       return False
 
-
+def GlobalAddSafe(path):
+   if platform == "linux":   
+      p = subprocess.Popen(['git config --global --add safe.directory ' + path], stdout=subprocess.PIPE, shell=True)
+      (output, err) = p.communicate()  
+      p_status = p.wait()
+      print(output.decode())
+   elif platform == "win32":
+      print("Windows Global Add safe is not developed")
+      pass
+ 

@@ -11,7 +11,7 @@ def startup_commands():
   p = subprocess.Popen(['service apache2 start'], stdout=subprocess.PIPE, shell=True)
   (output, err) = p.communicate()  
   p_status = p.wait()
-  print(output)
+  print(output.decode())
   #print("Waiting")
   #time.sleep(10)
   #print("Starting MYSQL")
@@ -25,7 +25,7 @@ def startup_commands():
   p = subprocess.Popen(['a2enmod headers'], stdout=subprocess.PIPE, shell=True)
   (output, err) = p.communicate()  
   p_status = p.wait()
-  print(output)
+  print(output.decode())
 
 
 def certbot_run(vhosted):
@@ -39,7 +39,7 @@ def certbot_run(vhosted):
   p = subprocess.Popen([cmd], stdout=subprocess.PIPE, shell=True)
   (output, err) = p.communicate()  
   p_status = p.wait()
-  print(output)
+  print(output.decode())
 
 
 def projectname_regex(item):
@@ -61,4 +61,4 @@ def Chown(user,path):
   p = subprocess.Popen(['chown -R ' + user  + ' ' + path], stdout=subprocess.PIPE, shell=True)
   (output, err) = p.communicate()  
   p_status = p.wait()
-  print(output)
+  print(output.decode())

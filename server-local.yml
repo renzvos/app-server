@@ -1,11 +1,13 @@
 version: "3"
 services:
-  dev-server:
-    image : dev-server
+  apache:
+    container_name: apache
+    image : local-server
     ports : 
       - 80:80
+      - 443:443
     env_file:
-      - config-dev.env
+      - config-local.env
     environment:
      - PYTHONUNBUFFERED=1
     volumes:
