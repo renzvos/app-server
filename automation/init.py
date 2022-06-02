@@ -1,7 +1,12 @@
 from apps.githubcommands import githubcommands
 from apps import vhostdata
+from apps.arsenal import Arsenal
+from apps.arsenal.connection import connection
+
 import support
 
+
+arsenalc = Arsenal()
 
 def main( config,projectdestination, vhostlocation , logall):
     githubprojects = []
@@ -32,15 +37,7 @@ def main( config,projectdestination, vhostlocation , logall):
                     print("Global safe adding")
                     githubcommands.GlobalAddSafe(destination)
                     githubprojects.append({"name": projectname , "username":username , "password" : password , "account" : account , "repo" : rep , "branch": branch , "destination" :destination , "final-sha" : sha})
-                if config[ envaddr + "_address_mode"] == "vhost":
-                    url = config[ envaddr  +  "_address_url_name"] 
-                    url_alias =  config[  envaddr  +  "_address_url_alias"] 
-                    destination  = projectdestination + projectname + "/"
-                    data = vhostdata.vhostdata(url,url_alias,destination)
-                    with open(vhostlocation + projectname +  '.conf', 'w') as f:
-                        f.write(data)
-                    vhosted.append({"name" : projectname , "url" : url , "url-alias" : url_alias})
-                
+  
                 apachevars = open('/etc/apache2/envvars', 'a')
                 apachevars.write('\n')
                 if envaddr + "_mysql_db_database" in config:
@@ -56,6 +53,48 @@ def main( config,projectdestination, vhostlocation , logall):
                     apachevars.write('export ' + envaddr + "_mysql_db_username=" + config[envaddr + "_mysql_db_username"]+ "\n")
                 else:print("Database Username not found")
                 apachevars.close()
+
+                if config[ envaddr + "_address_mode"] == "vhost":
+                    url = config[ envaddr  +  "_address_url_name"] 
+                    url_alias =  config[  envaddr  +  "_address_url_alias"] 
+                    destination  = projectdestination + projectname + "/"
+                    if config[envaddr + "_ssl"] == "true":
+                        certlocation = None
+                        keylocation = None
+                        if config[envaddr + "_ssl_certificate_source"] == "dropbox":
+                            cloud_dir = config[envaddr + '_ssl_certificate_source_path']
+                            access = config[envaddr + '_ssl_certificate_source_access']
+                            certlocation = "/volume/certificates/" + projectname + "/"
+                            conn = connection(projectname + "-ssl-cert",certlocation)
+                            conn.dropbox(access,cloud_dir)
+                            arsenalc.RemoveLocalData(conn)
+                            arsenalc.Download(conn,projectname + ".pem")
+                            print("Downloaded Certificate")
+                            certlocation = certlocation + projectname + ".pem"
+                        if config[envaddr + "_ssl_key_source"] == "dropbox":
+                            cloud_dir = config[envaddr + '_ssl_key_source_path']
+                            access = config[envaddr + '_ssl_key_source_access']
+                            keylocation = "/volume/certificates/" + projectname + "/"
+                            conn = connection(projectname + "ssl-key",keylocation)
+                            conn.dropbox(access,cloud_dir)
+                            arsenalc.RemoveLocalData(conn)
+                            arsenalc.Download(conn,projectname + ".key")
+                            print("Downloaded Key")
+                            keylocation = keylocation + projectname + ".key"
+                        
+                        data = vhostdata.vhostssl(url,url_alias,destination,certlocation,keylocation)
+                        with open(vhostlocation + projectname +  '.conf', 'w') as f:
+                            f.write(data)
+                        vhosted.append({"name" : projectname , "url" : url , "url-alias" : url_alias , "ssl" : True})
+                    else:
+                        data = vhostdata.vhostdata(url,url_alias,destination)
+                        with open(vhostlocation + projectname +  '.conf', 'w') as f:
+                            f.write(data)
+                        vhosted.append({"name" : projectname , "url" : url , "url-alias" : url_alias , "ssl" : False})
+
+
+
+
 
             else:
                 print("Cannot parse project name")    

@@ -48,7 +48,7 @@ RUN /opt/certbot/bin/pip install certbot certbot-apache
 RUN ln -s /opt/certbot/bin/certbot /usr/bin/certbot
 
 RUN apt-get install mysql-client -y
-
+RUN pip3 install requests
 
 RUN rm -rf /var/www/html
 
