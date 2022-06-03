@@ -42,7 +42,6 @@ def vhostdata(name,alias,location):
 
 def vhostssl(name,alias,location,certificate,key):
 	data = '''
-	<IfModule mod_ssl.c>
 		<VirtualHost *:443>
 			# The ServerName directive sets the request scheme, hostname and port that
 			# the server uses to identify itself. This is used when creating
@@ -74,16 +73,10 @@ def vhostssl(name,alias,location,certificate,key):
 			#Include conf-available/serve-cgi-bin.conf
 
 			SSLEngine on
-			SSLProtocol             all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
-			SSLCipherSuite          ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
-			SSLHonorCipherOrder     off
-			SSLSessionTickets       off
-			SSLOptions +StrictRequire
 			SSLCertificateFile '''+ certificate + '''
 			SSLCertificateKeyFile '''+ key + '''
 
 		</VirtualHost>
-	</IfModule>
 	'''
 
 	return data
