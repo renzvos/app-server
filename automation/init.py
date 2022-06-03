@@ -81,14 +81,18 @@ def main( config,projectdestination, vhostlocation , logall):
                             keylocation = keylocation + projectname + ".key"
                         
                         data = vhostdata.vhostssl(url,url_alias,destination,certlocation,keylocation)
-                        with open(vhostlocation + projectname +  '.conf', 'w') as f:
+                        with open(vhostlocation + projectname +  '-ssl.conf', 'w') as f:
                             f.write(data)
                         vhosted.append({"name" : projectname , "url" : url , "url-alias" : url_alias , "ssl" : True})
+                        data = vhostdata.vhostdata(url,url_alias,destination)
+                        with open(vhostlocation + projectname +  '.conf', 'w') as f:
+                            f.write(data)
                     else:
                         data = vhostdata.vhostdata(url,url_alias,destination)
                         with open(vhostlocation + projectname +  '.conf', 'w') as f:
                             f.write(data)
                         vhosted.append({"name" : projectname , "url" : url , "url-alias" : url_alias , "ssl" : False})
+
 
 
 
