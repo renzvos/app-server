@@ -51,16 +51,17 @@ RUN apt-get install mysql-client -y
 RUN pip3 install requests
 
 RUN rm -rf /var/www/html
+RUN a2enmod headers
+RUN a2enmod ssl
 
-
-#RUN apt-get install nano -y
+RUN apt-get install nano -y
 
 #Cache stops
 COPY automation automation
 COPY config config
 RUN python3 config/setconfig.py
 
-RUN a2enmod headers
+
 RUN service apache2 start
 
 EXPOSE 80:80

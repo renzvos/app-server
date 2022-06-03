@@ -67,7 +67,6 @@ def main( config,projectdestination, vhostlocation , logall):
                             certlocation = "/volume/certificates/" + projectname + "/"
                             conn = connection(projectname + "-ssl-cert",certlocation)
                             conn.dropbox(access,cloud_dir)
-                            arsenalc.RemoveLocalData(conn)
                             arsenalc.Download(conn,projectname + ".pem")
                             print("Downloaded Certificate")
                             certlocation = certlocation + projectname + ".pem"
@@ -77,7 +76,6 @@ def main( config,projectdestination, vhostlocation , logall):
                             keylocation = "/volume/certificates/" + projectname + "/"
                             conn = connection(projectname + "ssl-key",keylocation)
                             conn.dropbox(access,cloud_dir)
-                            arsenalc.RemoveLocalData(conn)
                             arsenalc.Download(conn,projectname + ".key")
                             print("Downloaded Key")
                             keylocation = keylocation + projectname + ".key"
