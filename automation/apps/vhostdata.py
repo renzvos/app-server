@@ -40,7 +40,7 @@ def vhostdata(name,alias,location):
     return data
 
 
-def vhostssl(name,alias,location,certificate,key):
+def vhostssl(name,alias,location,certificate,key,chainfile=None):
 	data = '''<VirtualHost *:443>
 	# The ServerName directive sets the request scheme, hostname and port that
 	# the server uses to identify itself. This is used when creating
@@ -74,6 +74,13 @@ def vhostssl(name,alias,location,certificate,key):
 	SSLEngine on
 	SSLCertificateFile '''+ certificate + '''
 	SSLCertificateKeyFile '''+ key + '''
+	
+	'''
+	if(chainfile != None):
+		data = data + '''SSLCertificateChainFile ''' + chainfile + '''
+	
+	'''
+	data = data + '''
 </VirtualHost>
 	'''
 

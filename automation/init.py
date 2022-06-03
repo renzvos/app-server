@@ -61,6 +61,7 @@ def main( config,projectdestination, vhostlocation , logall):
                     if config[envaddr + "_ssl"] == "true":
                         certlocation = None
                         keylocation = None
+                        chainfilelocation  = None
                         if config[envaddr + "_ssl_certificate_source"] == "dropbox":
                             cloud_dir = config[envaddr + '_ssl_certificate_source_path']
                             access = config[envaddr + '_ssl_certificate_source_access']
@@ -79,18 +80,33 @@ def main( config,projectdestination, vhostlocation , logall):
                             arsenalc.Download(conn,projectname + ".key")
                             print("Downloaded Key")
                             keylocation = keylocation + projectname + ".key"
+                        if envaddr + "_ssl_chainfile_source" in config:
+                            if config[envaddr + "_ssl_chainfile_source"] == "dropbox":
+                                cloud_dir = config[envaddr + '_ssl_chainfile_source_path']
+                                access = config[envaddr + '_ssl_chainfile_source_access']
+                                chainfilelocation = "/volume/certificates/" + projectname + "/"
+                                conn = connection(projectname + "ssl-chainfile",chainfilelocation)
+                                conn.dropbox(access,cloud_dir)
+                                arsenalc.Download(conn,projectname + ".pem")
+                                print("Downloaded Chain File")
+                                chainfilelocation = chainfilelocation + projectname + ".pem"
+                                data = vhostdata.vhostssl(url,url_alias,destination,certlocation,keylocation,chainfilelocation)
+                                with open(vhostlocation + projectname +  '-ssl.conf', 'w') as f:
+                                    f.write(data)
+                                    f.close()
+                                vhosted.append({"name" : projectname , "url" : url , "url-alias" : url_alias , "ssl" : True})
+                        else:
+                            data = vhostdata.vhostssl(url,url_alias,destination,certlocation,keylocation)
+                            with open(vhostlocation + projectname +  '-ssl.conf', 'w') as f:
+                                f.write(data)
+                                f.close()
+                            vhosted.append({"name" : projectname , "url" : url , "url-alias" : url_alias , "ssl" : True})
                         
-                        data = vhostdata.vhostssl(url,url_alias,destination,certlocation,keylocation)
-                        with open(vhostlocation + projectname +  '-ssl.conf', 'w') as f:
-                            f.write(data)
-                        vhosted.append({"name" : projectname , "url" : url , "url-alias" : url_alias , "ssl" : True})
-                        data = vhostdata.vhostdata(url,url_alias,destination)
-                        with open(vhostlocation + projectname +  '.conf', 'w') as f:
-                            f.write(data)
                     else:
                         data = vhostdata.vhostdata(url,url_alias,destination)
                         with open(vhostlocation + projectname +  '.conf', 'w') as f:
                             f.write(data)
+                            f.close()
                         vhosted.append({"name" : projectname , "url" : url , "url-alias" : url_alias , "ssl" : False})
 
 

@@ -1,9 +1,11 @@
 version: "3"
 services:
   dev-server:
+    container_name: apache
     image : renzvos.jfrog.io/apache-host/production
     ports : 
       - 80:80
+      - 443:443
     env_file:
       - config.env
     environment:
