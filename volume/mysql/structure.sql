@@ -51,7 +51,7 @@ CREATE DATABASE IF NOT EXISTS rex_prod;
 USE rex_prod;
 CREATE TABLE `events` (`id` int(11) NOT NULL,`session_id` int(11) NOT NULL, `datetime` datetime NOT NULL DEFAULT current_timestamp(), `action` varchar(30) NOT NULL,`window` varchar(100) NOT NULL,`tail` int(11) DEFAULT NULL, `extra_data` mediumtext NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `passwords` (`name` varchar(30) NOT NULL, `passcode` varchar(100) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-CREATE TABLE `sessions` (`id` int(11) NOT NULL,`datetime` datetime NOT NULL DEFAULT current_timestamp(), `project_name` varchar(50) NOT NULL,`source` int(11) NOT NULL,`user_id` varchar(60) NOT NULL,`entry_page` varchar(250) NOT NULL,`extra_data` mediumtext NOT NULL, `network_location` varchar(100) NOT NULL, `gps_location` varchar(100) NOT NULL, `device` varchar(100) NOT NULL,`project_version` varchar(30) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `sessions` (`id` int(11) NOT NULL,`datetime` datetime NOT NULL DEFAULT current_timestamp(), `project_name` varchar(50) NOT NULL,`source` int(11) NOT NULL,`user_id` varchar(60) NOT NULL,`entry_page` varchar(250) NOT NULL,`extra_data` mediumtext NOT NULL, `network_location` varchar(100) NOT NULL, `gps_location` varchar(100) NOT NULL, `device` varchar(250) NOT NULL,`project_version` varchar(30) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `sources` (  `id` int(11) NOT NULL,  `plan_name` varchar(50) NOT NULL, `mode` varchar(20) NOT NULL,  `extra_data` mediumtext NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ALTER TABLE `events` ADD PRIMARY KEY (`id`), ADD KEY `session_link` (`session_id`), ADD KEY `tail_link` (`tail`);
 ALTER TABLE `sessions` ADD PRIMARY KEY (`id`), ADD KEY `source_c` (`source`);
@@ -64,8 +64,6 @@ ALTER TABLE `sessions` ADD CONSTRAINT `source_c` FOREIGN KEY (`source`) REFERENC
 INSERT INTO `sources` (`id`, `plan_name`, `mode`, `extra_data`) VALUES (1, '', 'Free', '{}');
 INSERT INTO `sessions` (`id`, `datetime`, `project_name`, `source`, `user_id`, `entry_page`, `extra_data`, `network_location`, `gps_location`, `device`, `project_version`) VALUES (1, '2022-02-09 09:44:13', 'REX Server', 1, '', '', '', '{}', '{}', '', '1.0.0');
 INSERT INTO `passwords` (`name`, `passcode`) VALUES ('masterpassword', 'arshadnazirbabu');
-
-
 
 
 
