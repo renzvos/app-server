@@ -1,0 +1,65 @@
+--- new system -- new data
+sudo su
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+git clone https://arshadnzr%40email.com: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@github.com/renzvos/app-server.git
+cd app-server
+docker login renzvos.jfrog.io
+docker compose -f new.yml up
+
+
+--- new system -- old data
+
+sudo su
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+git clone https://arshadnzr%40email.com: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@github.com/renzvos/app-server.git
+cd app-server
+docker login renzvos.jfrog.io
+docker compose -f restore.yml up
+
+
+--existing system -- apache logs
+sudo su
+cd app-server
+docker logs apache -f -t
+
+
+-- existing system  --mysql logs
+sudo su
+cd app-server
+docker logs mysql -f -t
+
+
+---config only change
+sudo su
+cd app-server
+docker compose -f restore.yml down
+git pull https://arshadnzr%40email.com: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@github.com/renzvos/app-server.git
+docker compose -f restore.yml up
+
+---config and image change
+sudo su
+cd app-server
+docker compose -f restore.yml down
+git pull https://arshadnzr%40email.com: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@github.com/renzvos/app-server.git
+docker compose -f restore.yml pull
+docker compose -f restore.yml up
+
+
+--- get into apache
+sudo su
+cd app-server
+docker exec -it apache bash
+
+
+--- status
+sudo su
+docker ps
+
+
+--- quit and restart
+sudo su
+cd app-server
+docker compose -f restore.yml down
+docker compose -f restore.yml up
